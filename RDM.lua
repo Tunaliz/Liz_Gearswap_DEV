@@ -15,7 +15,7 @@
         gs c scholar addendum           Addendum: White         Addendum: Black
     
         Toggle Function: 
-        gs c toggle melee               Toggle Melee mode on / off and locking of weapons
+        gs c toggle melee               Toggle Melee mode auto / on / off and locking of weapons
         gs c toggle idlemode            Toggles between Refresh and DT idle mode.
         gs c toggle nukemode            Toggles between Normal and Accuracy mode for midcast Nuking sets (MB included)  
         
@@ -56,12 +56,17 @@ res = require('resources')
 texts = require('texts')
 include('Modes.lua')
 
+-- Set this to false will reduce chat window spam. 
+-- Set to true and the lua will tell you more about what it is doing. 
+verbose = true
+
+
 -- Define your modes: 
 -- You can add or remove modes in the table below, they will get picked up in the cycle automatically. 
 -- to define sets for idle if you add more modes, name them: sets.me.idle.mymode and add 'mymode' in the group.
 -- Same idea for nuke modes. 
 idleModes = M('refresh', 'dt', 'mdt')
-meleeModes = M('normal', 'acc', 'dt', 'mdt')
+meleeModes = M('normal', 'acc', 'dt', 'mdt', 'zeroTP')
 nukeModes = M('normal', 'acc')
 
 
@@ -76,14 +81,14 @@ lockWeaponTP = 500
 -- Important to read!
 ------------------------------------------------------------------------------------------------------
 -- This will be used later down for weapon combos, here's mine for example, you can add your REMA+offhand of choice in there
--- Add you weapons in the Main list and/or sub list.
+-- Add your weapons in the Main list and/or sub list.
 -- Don't put any weapons / sub in your IDLE and ENGAGED sets'
 -- You can put specific weapons in the midcasts and precast sets for spells, but after a spell is 
 -- cast and we revert to idle or engaged sets, we'll be checking the following for weapon selection. 
 -- Defaults are the first in each list
 
-mainWeapon = M('Crocea Mors', 'Naegling', 'Maxentius')
-subWeapon = M('Ammurapi Shield', 'Machaera +3', 'Kaja Knife')
+mainWeapon = M( 'Crocea Mors', 'Naegling', 'Maxentius' )
+subWeapon = M( 'Kaja Knife', 'Ammurapi Shield', 'Machaera +3' )
 ------------------------------------------------------------------------------------------------------
 
 -- HUD Config
@@ -157,6 +162,7 @@ function get_sets()
     ----------------------------------------------------------
     -- Auto CP Cape: Will put on CP cape automatically when
     -- fighting Apex mobs and job is not mastered
+	-- It will equip the cape and lock it when the apex mob is under 15% hp.
     ----------------------------------------------------------
     CP_CAPE = "Mecisto. Mantle" -- Put your CP cape here
     ----------------------------------------------------------
@@ -285,6 +291,9 @@ function get_sets()
     sets.me.melee.mdtdw = set_combine(sets.me.melee.dtdw,{
 
     })
+    sets.me.melee.zeroTPdw = set_combine(sets.me.melee.normaldw,{
+
+    })
 
     sets.me.melee.normalsw = set_combine(sets.me.idle.normal,{   
         ammo        =   "Ginsen",
@@ -320,7 +329,10 @@ function get_sets()
     sets.me.melee.mdtsw = set_combine(sets.me.melee.dtsw,{
 
     })    
-             
+    sets.me.melee.zeroTPsw = set_combine(sets.me.melee.normalsw,{
+
+    })
+	
     -- Weapon Skills sets just add them by name.
     sets.me["Savage Blade"] = {
         ammo		=	"Regal Gem",
