@@ -400,14 +400,17 @@ function downgradenuke( spell )
 end
 
 function EnspellCheck()
-
-    -- Enspell matches double weather
-    if Buff['En-Weather'] and get_weather_intensity() == 2 then
+	-- This only gets checked when wielding Crocea or Vitiation Sword.
+	-- Enspell matches double weather but bad day
+	if Buff['En-Weather'] and get_weather_intensity() == 2 and not Buff['En-BadDay'] then
+		equip(sets.midcast.Orpheus)	
+	-- Enspell matches double weather and irrelevent day
+	elseif Buff['En-Weather'] and get_weather_intensity() == 2 then
         equip(sets.midcast.Obi)
     -- Enspell matches day AND weather
     elseif Buff['En-Weather'] and Buff['En-Day'] then
         equip(sets.midcast.Obi)
-    -- Enspell is there but doesnt match a double weather
+    -- Enspell is there but doesnt match anything of note (single weather no day, day but no weather etc.)
     elseif Buff['Enspell'] then
         equip(sets.midcast.Orpheus)
     end 
