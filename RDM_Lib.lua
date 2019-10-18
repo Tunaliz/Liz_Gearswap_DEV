@@ -142,7 +142,7 @@ function validateTextInformation()
     elseif meleeing.value == "ON" then
         main_text_hub.toggle_lock_weapon = const_on
     else
-        if player.tp >= lockWeaponTP then
+        if player.tp >= lockWeaponTP or meleeModes.value == 'zeroTP' then
             main_text_hub.toggle_lock_weapon = const_autoOn
         else
             main_text_hub.toggle_lock_weapon = const_autoOff
@@ -352,10 +352,10 @@ Buff =
         ['Saboteur'] = false, 
         ['En-Weather'] = false,
         ['En-Day'] = false,
+		['En-BadDay'] = false,
         ['Enspell'] = false,
     }
     
-
 -- Reset the state vars tracking strategems.
 function update_active_ja(name, gain)
     Buff['Composure'] = buffactive['Composure'] or false
@@ -363,6 +363,7 @@ function update_active_ja(name, gain)
     Buff['Saboteur'] = buffactive['Saboteur'] or false
     Buff['En-Weather'] = buffactive[nukes.enspell[world.weather_element]] or false
     Buff['En-Day'] = buffactive[nukes.enspell[world.day_element]] or false
+	Buff['En-BadDay'] = buffactive[nukes.enspell[element.strong_to[world.day_element]]] or false
     Buff['Enspell'] = buffactive[nukes.enspell[1]] or buffactive[nukes.enspell[2]] or buffactive[nukes.enspell[3]] or buffactive[nukes.enspell[4]] or buffactive[nukes.enspell[5]] or buffactive[nukes.enspell[6]] or buffactive[nukes.enspell[7]] or buffactive[nukes.enspell[8]] or false
 end
 
@@ -378,22 +379,77 @@ function buff_change(name,gain,buff_details)
     validateTextInformation()
 
 end
- 
+
+function RDM_lockMainHand( value )   
+    -- We want to force lock weapons
+	if value == 'ON' then
+		-- We force lock only main and sub if in zeroTP mode (since we care abot lock, but not TP so Ullr and Ammo still swapping)
+		if meleeModes.current == 'zeroTP' then
+			disable('main','sub')
+		-- If not in zeroTP mode, lock everything
+		else
+			disable('main','sub','ranged')
+		end
+	-- If we are in auto or off mode, but not in zeroTP, we unlock everything
+    elseif value == 'OFF' or 'AUTO' then
+		enable('main','sub','ranged')
+	end
+	validateTextInformation()
+end
+
 function precast(spell)
+    -- Get the spell mapping, since we'll be passing it to various functions and checks.
+    local spellMap = get_spell_map(spell)
+    local enfeebMap = get_enfeeb_map(spell)
+	local spell_recasts = windower.ffxi.get_spell_recasts()
+
+    -- Auto use Echo Drops if you are trying to cast while silenced --    
+    if spell.action_type == 'Magic' and buffactive['Silence'] then 
+        cancel_spell()
+        send_command('input /item "Echo Drops" <me>')     
+		if verbose then
+			add_to_chat(322, '****** !! '..spell.name..' CANCELED - Using Echo Drops !! ******')
+        end    
+    end       
+
+	-- auto Nuke downgrade (T5 to T4 to T3 etc..) if the one you were trying is on recast timer. 
+	-- It's a *bit* wonky when you spam the macro, so don't spam macros, or remove that part.
+	if spell.action_type  == 'Magic' and spell_recasts[spell.recast_id] > 0 then
+        cancel_spell()
+        downgradenuke(spell)
+        if verbose then
+			add_to_chat(322, '****** ['..spell.name..' CANCELED - Spell on Cooldown, Downgrading spell] ******')
+        end
+    end    
+	
+	-- Checks for the TP threshold to lock weapons if over TP treshold -or- if we are in zeroTP mode 
     if meleeing.value == "AUTO" then
-        if player.tp >= lockWeaponTP then
+        if player.tp >= lockWeaponTP or meleeModes.current == 'zeroTP' then
             lock:set('ON')
         else
             lock:set('OFF')
         end
-        lockMainHand(lock.value)
+        RDM_lockMainHand(lock.value)
     end
 
     -- Auto downgrade Phalanx II to Pahalanx I when casting on self, saves macro space so you can set your phalanx macro to cast phalanx2 on <stpt>
     if spell.target.type == 'SELF' and spell.name == "Phalanx II" then
         cancel_spell()
-        send_command('input /ma "Phalanx" <me>')  
-    end
+        send_command('input /ma "Phalanx" <me>') 
+		if verbose then
+			add_to_chat(322, '****** ['..spell.name..' detected on self. Downgraded to Phalanx] ******')
+		end
+	end
+
+	if spellMap == 'Utsusemi' then
+        if buffactive[445] or buffactive[446] then
+            cancel_spell()
+            add_to_chat(322, '****** !! '..spell.english..' Canceled: [3+ IMAGES] !! ******')
+        elseif (buffactive['Copy Image'] or buffactive['Copy Image (2)']) and spell.name == 'Utsusemi: Ichi' then
+			windower.ffxi.cancel_buff(66)
+			windower.ffxi.cancel_buff(444)
+        end
+	end
 
     -- Moving on to other types of magic
     if spell.type == 'WhiteMagic' or spell.type == 'BlackMagic' or spell.type == 'Ninjutsu' then
@@ -415,15 +471,6 @@ function precast(spell)
             if spell.name == 'Sneak' then
                 windower.ffxi.cancel_buff(71)--[[Cancels Sneak]]
             end
-        elseif spellMap == 'Utsusemi' then
-            if buffactive['Copy Image (3)'] or buffactive['Copy Image (4+)'] then
-                cancel_spell()
-                add_to_chat(123, '**!! '..spell.english..' Canceled: [3+ IMAGES] !!**')
-            elseif buffactive['Copy Image'] or buffactive['Copy Image (2)'] then
-                send_command('cancel 66; cancel 444; cancel Copy Image; cancel Copy Image (2)')
-            end
-            equip(sets.precast.casting)
-
         else       
             -- For everything else we go with max fastcast
             equip(sets.precast.casting)                
@@ -548,9 +595,18 @@ function midcast(spell)
 
 end
 
-function aftercast(spell) 
+function aftercast(spell)
 
     -- Then initiate idle function to check which set should be equipped
+    if meleeing.value == "AUTO" then
+        if player.tp >= lockWeaponTP or meleeModes.value == 'zeroTP' then
+            lock:set('ON')
+        else
+            lock:set('OFF')
+        end
+        RDM_lockMainHand(lock.value)
+    end
+
     update_active_ja()
     idle()
 end
@@ -559,11 +615,12 @@ function idle()
     -- This function is called after every action, and handles which set to equip depending on what we're doing
     -- We check if we're meleeing because we don't want to idle in melee gear when we're only engaged for trusts
     if player.status=='Engaged' then
-        if subWeapon.current:match('Shield') or subWeapon.current:match('Bulwark') or subWeapon.current:match('Buckler') then
+        if subWeapon.current:match('Shield') or subWeapon.current:match('Bulwark') or subWeapon.current:match('Buckler') or subWeapon.current:match('Grip') or subWeapon.current:match('Strap') then
             equip(sets.me.melee[meleeModes.value..'sw'])
         else
             equip(sets.me.melee[meleeModes.value..'dw'])
         end
+		-- Optimizes Belt for when we want enspell to matter
         if mainWeapon.value == "Crocea Mors" or "Vitiation Sword" then
             EnspellCheck()
         end
@@ -601,7 +658,7 @@ function self_command(command)
         if commandArgs[1] == 'toggle' then
             if commandArgs[2] == 'melee' then
                 meleeing:cycle()
-                lockMainHand(meleeing.value)
+                RDM_lockMainHand(meleeing.value)
 
             elseif commandArgs[2] == 'runspeed' then
                 runspeed:cycle()
