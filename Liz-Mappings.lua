@@ -87,6 +87,14 @@ enfeeb_maps = {
 }
 
 elements =  M('Ice', 'Air', 'Dark', 'Light', 'Earth', 'Lightning', 'Water', 'Fire')
+
+element = {}
+element.weak_to = {['Light']='Dark', ['Dark']='Light', ['Fire']='Ice', ['Ice']='Wind', ['Wind']='Earth', ['Earth']='Lightning',
+        ['Lightning']='Water', ['Water']='Fire'}
+
+element.strong_to = {['Light']='Dark', ['Dark']='Light', ['Fire']='Water', ['Ice']='Fire', ['Wind']='Ice', ['Earth']='Wind',
+        ['Lightning']='Earth', ['Water']='Lightning'}
+
 enspellElements =  M('Ice', 'Air', 'Earth', 'Lightning', 'Water', 'Fire')
 
 nukes = {}
