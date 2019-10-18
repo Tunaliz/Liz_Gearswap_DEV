@@ -444,31 +444,31 @@ function get_sets()
     -- Precast
     ----------
       
-    -- Generic Casting Set that all others take off of. Here you should add all your fast cast RDM need 50 pre JP 42 at master
+    -- Generic Casting Set that all others take off of. Here you should add all your fast cast RDM need 50 pre JP, 42 at master
     sets.precast.casting = {
-        head		=	Carm.Head.D,            --14
+        --main		=	"Crocea Mors",			--20  --not counting this one because I wanna be capped FC even when I am locked into not-crocea for TP reasons
+		head		=	Carm.Head.D,            --14
         body		=	Merl.Body.FC,           --12
         legs		=	"Aya. Cosciales +2",    --6
         neck		=	"Voltsurge Torque",     --4
         waist		=	"Witful Belt",          --3
-        left_ear	=	"Etiolation Earring",   --1
+        left_ear	=	"Loquacious Earring",   --2
         right_ear	=	"Malignance Earring",   --4
         left_ring	=	"Kishar Ring",          --4
         right_ring	=	"Weather. Ring",        --5
-    }											--Total: 51
+    }											--Total: 54 -- overcapped by 12 TODO: Adjust more DT / HP into this set.
 
 	sets.precast["Stun"] = set_combine(sets.precast.casting,{
-
+		-- TODO: Actually make this.
     })
 
-    -- Enhancing Magic, eg. Siegal Sash, etc
     sets.precast.enhancing = set_combine(sets.precast.casting,{
-
+		-- don't really need this anymore with capped FC.
     })
   
     -- Stoneskin casting time -, works off of enhancing -
     sets.precast.stoneskin = set_combine(sets.precast.enhancing,{
-
+		--Legacy. 
     })
       
     -- Curing Precast, Cure Spell Casting time -
@@ -526,7 +526,7 @@ function get_sets()
         feet		=	Amal.Feet.A,
         neck		=	"Dls. Torque +2",
         waist		=	"Refoccilation Stone",
-        left_ear	=	"Malignance Earring",
+        left_ear	=	"Barkaro. Earring",
         right_ear	=	"Malignance Earring",
         back		=	RDMCape.MACC,
         right_ring	=	"Freke Ring",
@@ -544,7 +544,7 @@ function get_sets()
         feet		=	Amal.Feet.A,
         neck		=	"Dls. Torque +2",
         waist		=	"Refoccilation Stone",
-        left_ear	=	"Malignance Earring",
+        left_ear	=	"Barkaro. Earring",
         right_ear	=	"Malignance Earring",
         back		=	RDMCape.MACC,
         right_ring	=	"Freke Ring",
@@ -571,7 +571,7 @@ function get_sets()
         feet		=	Amal.Feet.A,
         neck		=	"Dls. Torque +2",
         waist		=	"Refoccilation Stone",
-        left_ear	=	"Malignance Earring",
+        left_ear	=	"Barkaro. Earring",
         right_ear	=	"Malignance Earring",
         back		=	RDMCape.MACC,
         right_ring	=	"Freke Ring",
@@ -601,7 +601,7 @@ function get_sets()
         feet		=	RELIC.Feet,
         neck		=	"Dls. Torque +2",
         waist		=	"Porous Rope",
-        left_ear	=	"Odnowa Earring +1",
+        left_ear	=	"Barkaro. Earring",
         right_ear	=	"Malignance Earring",
         left_ring	=	"Stikini Ring +1",
         right_ring	=	"Stikini Ring",
@@ -622,7 +622,7 @@ function get_sets()
         feet		=	RELIC.Feet,
         neck		=	"Dls. Torque +2",
         waist		=	"Porous Rope",
-        left_ear	=	"Odnowa Earring +1",
+        left_ear	=	"Barkaro. Earring",
         right_ear	=	"Malignance Earring",
         left_ring	=	"Stikini Ring +1",
         right_ring	=	"Stikini Ring",
@@ -640,7 +640,7 @@ function get_sets()
         feet		=	RELIC.Feet,
         neck		=	"Dls. Torque +2",
         waist		=	"Porous Rope",
-        left_ear	=	"Odnowa Earring +1",
+        left_ear	=	"Barkaro. Earring",
         right_ear	=	"Malignance Earring",
         left_ring	=	"Stikini Ring +1",
         right_ring	=	"Freke Ring",
@@ -658,7 +658,7 @@ function get_sets()
         feet		=	RELIC.Feet,
         neck		=	"Dls. Torque +2",
         waist		=	"Porous Rope",
-        left_ear	=	"Odnowa Earring +1",
+        left_ear	=	"Barkaro. Earring",
         right_ear	=	"Malignance Earring",
         left_ring	=	"Stikini Ring +1",
         right_ring	=	"Stikini Ring",
@@ -676,7 +676,7 @@ function get_sets()
         feet		=	RELIC.Feet,
         neck		=	"Dls. Torque +2",
         waist		=	"Porous Rope",
-        left_ear	=	"Odnowa Earring +1",
+        left_ear	=	"Barkaro. Earring",
         right_ear	=	"Malignance Earring",
         left_ring	=	"Stikini Ring +1",
         right_ring	=	"Stikini Ring",
@@ -694,7 +694,7 @@ function get_sets()
         feet		=	RELIC.Feet,
         neck		=	"Dls. Torque +2",
         waist		=	"Porous Rope",
-        left_ear	=	"Odnowa Earring +1",
+        left_ear	=	"Barkaro. Earring",
         right_ear	=	"Malignance Earring",
         left_ring	=	"Stikini Ring +1",
         right_ring	=	"Stikini Ring",
