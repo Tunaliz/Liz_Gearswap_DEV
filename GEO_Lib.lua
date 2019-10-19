@@ -99,7 +99,7 @@ keybinds_off['key_bind_matchsc'] = '        '
 function validateTextInformation()
 
     --Mode Information
-    if mode = 'pan' then
+    if mode == 'pan' then
         main_text_hub.player_current_idle = tostring(idleModes.current..' + \\cs(32, 255, 32)luopan\\cr')
     else
         main_text_hub.player_current_idle = idleModes.current
