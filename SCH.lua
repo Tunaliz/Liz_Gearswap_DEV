@@ -216,7 +216,7 @@ function get_sets()
     sets.me.idle.sublimation = set_combine(sets.me.idle.refresh,{
     	head="Acad. Mortar. +1",
 		body="Peda. Gown +3",
-        feet="Peda Loafers +3",
+        feet="Peda. Loafers +3",
 		back="Moonbeam Cape",
     })   
     -- Your idle DT set
