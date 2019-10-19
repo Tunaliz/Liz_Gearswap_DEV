@@ -87,8 +87,8 @@ lockWeaponTP = 500
 -- cast and we revert to idle or engaged sets, we'll be checking the following for weapon selection. 
 -- Defaults are the first in each list
 
-mainWeapon = M( 'Crocea Mors', 'Naegling', 'Maxentius' )
-subWeapon = M( 'Kaja Knife', 'Ammurapi Shield', 'Machaera +3' )
+mainWeapon = M( 'Crocea Mors', 'Naegling', 'Maxentius', 'Kaja Knife' )
+subWeapon = M( 'Kaja Knife', 'Ammurapi Shield', 'Machaera +3', 'Maxentius', 'Malevolence' )
 ------------------------------------------------------------------------------------------------------
 
 -- HUD Config
@@ -439,7 +439,36 @@ function get_sets()
         right_ring	=	"Freke Ring",
         back		=	RDMCape.MACC,
     }
-
+    sets.me["Aeolian Edge"] = {
+        ammo        =   "Pemphredo Tathlum",
+        head        =   Merl.Head.ACC,
+        body        =   Amal.Body.A,
+        hands       =   "Jhakri Cuffs +2",
+        legs        =   Amal.Legs.A,
+        feet        =   RELIC.Feet,
+        neck        =   "Fotia Gorget",
+        waist       =   "Fotia Belt",
+        left_ear    =   "Ishvara Earring",
+        right_ear   =   "Malignance Earring",
+        left_ring   =   "Freke Ring",
+        right_ring  =   "Rufescent Ring",
+        back        =   RDMCape.MACC,
+    }
+    sets.me["Evisceration"] = {
+        ammo        =   "Ginsen",
+        head        =   Taeon.Head.TP,
+        body        =   "Ayanmo Corazza +2",
+        hands       =   "Jhakri Cuffs +2",
+        legs        =   RELIC.Legs,
+        feet        =   Carm.Feet.B,
+        neck        =   "Fotia Gorget",
+        waist       =   "Fotia Belt",
+        left_ear    =   "Mache Earring +1",
+        right_ear   =   "Sherida Earring",
+        left_ring   =   "Begrudging Ring",
+        right_ring  =   "Rufescent Ring",
+        back        =   RDMCape.TP,
+    }
     -- Feel free to add new weapon skills, make sure you spell it the same as in game. These are the only two I ever use though 
 	
 	
@@ -538,7 +567,7 @@ function get_sets()
         feet		=	Amal.Feet.A,
         neck		=	"Dls. Torque +2",
         waist		=	"Refoccilation Stone",
-        left_ear	=	"Barkaro. Earring",
+        left_ear	=	"Enchntr. Earring +1",
         right_ear	=	"Malignance Earring",
         back		=	RDMCape.MACC,
         right_ring	=	"Freke Ring",
@@ -556,7 +585,7 @@ function get_sets()
         feet		=	Amal.Feet.A,
         neck		=	"Dls. Torque +2",
         waist		=	"Refoccilation Stone",
-        left_ear	=	"Barkaro. Earring",
+        left_ear	=	"Enchntr. Earring +1",
         right_ear	=	"Malignance Earring",
         back		=	RDMCape.MACC,
         right_ring	=	"Freke Ring",
@@ -583,7 +612,7 @@ function get_sets()
         feet		=	Amal.Feet.A,
         neck		=	"Dls. Torque +2",
         waist		=	"Refoccilation Stone",
-        left_ear	=	"Barkaro. Earring",
+        left_ear	=	"Enchntr. Earring +1",
         right_ear	=	"Malignance Earring",
         back		=	RDMCape.MACC,
         right_ring	=	"Freke Ring",
@@ -612,8 +641,8 @@ function get_sets()
         legs		=	Chiro.Legs.Acc,
         feet		=	RELIC.Feet,
         neck		=	"Dls. Torque +2",
-        waist		=	"Porous Rope",
-        left_ear	=	"Barkaro. Earring",
+        waist		=	"Luminary Sash",
+        left_ear	=	"Enchntr. Earring +1",
         right_ear	=	"Malignance Earring",
         left_ring	=	"Stikini Ring +1",
         right_ring	=	"Stikini Ring",
@@ -633,8 +662,8 @@ function get_sets()
         legs		=	Chiro.Legs.Acc,
         feet		=	RELIC.Feet,
         neck		=	"Dls. Torque +2",
-        waist		=	"Porous Rope",
-        left_ear	=	"Barkaro. Earring",
+        waist		=	"Luminary Sash",
+        left_ear	=	"Enchntr. Earring +1",
         right_ear	=	"Malignance Earring",
         left_ring	=	"Stikini Ring +1",
         right_ring	=	"Stikini Ring",
@@ -651,8 +680,8 @@ function get_sets()
         legs		=	Chiro.Legs.Acc,
         feet		=	RELIC.Feet,
         neck		=	"Dls. Torque +2",
-        waist		=	"Porous Rope",
-        left_ear	=	"Barkaro. Earring",
+        waist		=	"Luminary Sash",
+        left_ear	=	"Enchntr. Earring +1",
         right_ear	=	"Malignance Earring",
         left_ring	=	"Stikini Ring +1",
         right_ring	=	"Freke Ring",
@@ -669,8 +698,8 @@ function get_sets()
         legs		=	Chiro.Legs.Acc,
         feet		=	RELIC.Feet,
         neck		=	"Dls. Torque +2",
-        waist		=	"Porous Rope",
-        left_ear	=	"Barkaro. Earring",
+        waist		=	"Luminary Sash",
+        left_ear	=	"Enchntr. Earring +1",
         right_ear	=	"Malignance Earring",
         left_ring	=	"Stikini Ring +1",
         right_ring	=	"Stikini Ring",
@@ -687,8 +716,8 @@ function get_sets()
         legs		=	Chiro.Legs.Acc,
         feet		=	RELIC.Feet,
         neck		=	"Dls. Torque +2",
-        waist		=	"Porous Rope",
-        left_ear	=	"Barkaro. Earring",
+        waist		=	"Luminary Sash",
+        left_ear	=	"Enchntr. Earring +1",
         right_ear	=	"Malignance Earring",
         left_ring	=	"Stikini Ring +1",
         right_ring	=	"Stikini Ring",
@@ -705,8 +734,8 @@ function get_sets()
         legs		=	Chiro.Legs.Acc,
         feet		=	RELIC.Feet,
         neck		=	"Dls. Torque +2",
-        waist		=	"Porous Rope",
-        left_ear	=	"Barkaro. Earring",
+        waist		=	"Luminary Sash",
+        left_ear	=	"Enchntr. Earring +1",
         right_ear	=	"Malignance Earring",
         left_ring	=	"Stikini Ring +1",
         right_ring	=	"Stikini Ring",
