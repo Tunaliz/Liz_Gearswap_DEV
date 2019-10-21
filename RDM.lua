@@ -1,4 +1,4 @@
-
+version = "3.0"
 --[[
         Custom commands:
 
@@ -39,6 +39,12 @@
         gs c hud hidejob				Toggles the Job section of the HUD on or off
         gs c hud lite					Toggles the HUD in lightweight style for less screen estate usage. Also on ALT-END
         gs c hud keybinds               Toggles Display of the HUD keybindings (my defaults) You can change just under the binds in the Gearsets file. Also on CTRL-END
+        gs c hud setcolor sections      Cycles colors for sections
+        gs c hud setcolor options       Cycles colors for options
+        gs c hud setcolor keybinds      Cycles colors for keybinds
+        gs c hud setcolor selection     Cycles colors for selection
+
+        Alternatively you can also add the color after those command like: //gs c hud setcolor options blue
 
         // OPTIONAL IF YOU WANT / NEED to skip the cycles...  
         gs c nuke Ice                   Set Element Type to Ice DO NOTE the Element needs a Capital letter. 
@@ -50,71 +56,105 @@
         gs c nuke Water                 Set Element Type to Water DO NOTE the Element needs a Capital letter. 
         gs c nuke Fire                  Set Element Type to Fire DO NOTE the Element needs a Capital letter. 
 --]]
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+--              ______                   _                  
+--             / _____)        _     _  (_)                 
+--            ( (____  _____ _| |_ _| |_ _ ____   ____  ___ 
+--             \____ \| ___ (_   _|_   _) |  _ \ / _  |/___)
+--             _____) ) ____| | |_  | |_| | | | ( (_| |___ |
+--            (______/|_____)  \__)  \__)_|_| |_|\___ (___/ 
+--                                              (_____|    
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+-- Set this to true and as soon as you move you swap into movespeed set, and revert when stationary
+-- Set it to false and the movespeed toggle is manual. 
+autorunspeed = true
+auto_CP_Cape = false
+-- TP treshold where weapons gets locked. 
+lockWeaponTP = 500
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+-- HUD Initial setup and Positioning
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+hud_x_pos = 1400    --important to update these if you have a smaller screen
+hud_y_pos = 200     --important to update these if you have a smaller screen
+hud_draggable = true
+hud_font_size = 10
+hud_transparency = 225 -- a value of 0 (invisible) to 255 (no transparency at all)
+hud_font = 'Impact'
+hud_padding = 10
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+include('Liz-Includes.lua')
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+-- Customize HUD looks and content
+-- Colors: ('red', 'blue', 'green', 'white', 'yellow', 'cyan', 'magenta', 'black', 'orange')
 
-include('organizer-lib')
-res = require('resources')
-texts = require('texts')
-include('Modes.lua')
+sectionsColors:set('orange')
+keybindsColors:set('yellow')
+optionsColors:set('white')
+selectionColors:set('blue')   
 
--- Set this to false will reduce chat window spam. 
--- Set to true and the lua will tell you more about what it is doing. 
-verbose = true
+textHideMode:set(false)
+textHideOptions:set(false)
+textHideJob:set(false)
+textHideBattle:set(false)
+textHideHUD:set(false)
+useLightMode:set(false)
+keybinds:set(false)
 
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+-- Optional. Swap to your sch macro sheet / book
+set_macros(1,7) -- Sheet, Book
 
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
 -- Define your modes: 
 -- You can add or remove modes in the table below, they will get picked up in the cycle automatically. 
 -- to define sets for idle if you add more modes, name them: sets.me.idle.mymode and add 'mymode' in the group.
 -- Same idea for nuke modes. 
 idleModes = M('refresh', 'dt', 'mdt')
 meleeModes = M('normal', 'acc', 'dt', 'mdt', 'zeroTP')
+-- To add a new mode to nuking, you need to define both sets: sets.midcast.nuking.mynewmode as well as sets.midcast.MB.mynewmode
 nukeModes = M('normal', 'acc')
 
-
--- Set this to true and as soon as you move you swap into movespeed set, and revert when stationary
--- Set it to false and the movespeed toggle is manual. 
-autorunspeed = false
-
--- TP treshold where weapons gets locked. 
-lockWeaponTP = 500
-
-------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
 -- Important to read!
-------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
 -- This will be used later down for weapon combos, here's mine for example, you can add your REMA+offhand of choice in there
 -- Add your weapons in the Main list and/or sub list.
 -- Don't put any weapons / sub in your IDLE and ENGAGED sets'
 -- You can put specific weapons in the midcasts and precast sets for spells, but after a spell is 
 -- cast and we revert to idle or engaged sets, we'll be checking the following for weapon selection. 
 -- Defaults are the first in each list
-
 mainWeapon = M( 'Crocea Mors', 'Naegling', 'Maxentius', 'Kaja Knife' )
 subWeapon = M( 'Kaja Knife', 'Ammurapi Shield', 'Machaera +3', 'Maxentius', 'Malevolence' )
-------------------------------------------------------------------------------------------------------
 
--- HUD Config
-hud_x_pos = 1400    --important to update these if you have a smaller screen
-hud_y_pos = 200     --important to update these if you have a smaller screen
-hud_draggable = true
-hud_font_size = 10
-hud_transparency = 200 -- a value of 0 (invisible) to 255 (no transparency at all)
-hud_font = 'Impact'
-
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
 
 -- Setup your Key Bindings here:
-    windower.send_command('bind insert gs c nuke cycle')        -- insert to Cycles Nuke element
-    windower.send_command('bind delete gs c nuke cycledown')    -- delete to Cycles Nuke element in reverse order   
-    windower.send_command('bind f9 gs c toggle idlemode')       -- F9 to change Idle Mode    
-    windower.send_command('bind f8 gs c toggle meleemode')      -- F8 to change Melee Mode  
-    windower.send_command('bind !f9 gs c toggle melee')         -- Alt-F9 Toggle Melee mode on / off, locking of weapons
-    windower.send_command('bind !f8 gs c toggle mainweapon')    -- Alt-F8 Toggle Main Weapon
-    windower.send_command('bind ^f8 gs c toggle subweapon')     -- CTRL-F8 Toggle sub Weapon.
-    windower.send_command('bind !` input /ma Stun <t>')         -- Alt-` Quick Stun Shortcut.
-    windower.send_command('bind home gs c nuke enspellup')      -- Home Cycle Enspell Up
-    windower.send_command('bind PAGEUP gs c nuke enspelldown')  -- PgUP Cycle Enspell Down
-    windower.send_command('bind !f10 gs c toggle nukemode')     -- Alt-F10 to change Nuking Mode
-    windower.send_command('bind F10 gs c toggle matchsc')       -- F10 to change Match SC Mode         
-    windower.send_command('bind !end gs c hud lite')            -- Alt-End to toggle light hud version       
-    windower.send_command('bind ^end gs c hud keybinds')        -- CTRL-End to toggle Keybinds  
+    windower.send_command('bind insert gs c nuke cycle')            -- Insert Cycles Nuke element
+    windower.send_command('bind !insert gs c nuke cycledown')       -- ALT+Insert Cycles Nuke element in reverse order 
+
+    windower.send_command('bind f9 gs c toggle idlemode')           -- F9 to change Idle Mode    
+    windower.send_command('bind f8 gs c toggle meleemode')          -- F8 to change Melee Mode  
+    windower.send_command('bind !f9 gs c toggle melee')             -- Alt-F9 Toggle Melee mode on / off, locking of weapons
+    windower.send_command('bind home gs c toggle mainweapon')       -- Home Toggle Main Weapon
+    windower.send_command('bind !home gs c toggle subweapon')       -- ALT-Home Toggle sub Weapon.
+    windower.send_command('bind !` input /ma Stun <t>')             -- Alt-` Quick Stun Shortcut.
+    windower.send_command('bind delete gs c nuke enspellup')        -- delete Cycle Enspell Up
+    windower.send_command('bind !delete gs c nuke enspelldown')     -- Alt-delete Cycle Enspell Down
+    windower.send_command('bind !f10 gs c toggle nukemode')         -- Alt-F10 to change Nuking Mode
+    windower.send_command('bind f10 gs c toggle matchsc')           -- F10 to change Match SC Mode         
+    windower.send_command('bind !end gs c hud lite')                -- Alt-End to toggle light hud version       
+    windower.send_command('bind ^end gs c hud keybinds')            -- CTRL-End to toggle Keybinds  
 
 --[[
     This gets passed in when the Keybinds is turned on.
@@ -124,38 +164,48 @@ keybinds_on = {}
 keybinds_on['key_bind_idle'] = '(F9)'
 keybinds_on['key_bind_melee'] = '(F8)'
 keybinds_on['key_bind_casting'] = '(ALT-F10)'
-keybinds_on['key_bind_mainweapon'] = '(ALT-F8)'
-keybinds_on['key_bind_subweapon'] = '(CTRL-F8)'
-keybinds_on['key_bind_element_cycle'] = '(INS + DEL)'
-keybinds_on['key_bind_enspell_cycle'] = '(HOME + PgUP)'
+keybinds_on['key_bind_mainweapon'] = '(HOME)'
+keybinds_on['key_bind_subweapon'] = '(Alt-HOME)'
+keybinds_on['key_bind_element_cycle'] = '(INS)'
+keybinds_on['key_bind_enspell_cycle'] = '(DEL)'
 keybinds_on['key_bind_lock_weapon'] = '(ALT-F9)'
 keybinds_on['key_bind_matchsc'] = '(F10)'
 
 -- Remember to unbind your keybinds on job change.
 function user_unload()
-    send_command('unbind insert')
-    send_command('unbind delete')   
-    send_command('unbind f9')
-    send_command('unbind !f9')
-    send_command('unbind f8')
-    send_command('unbind !f8')
-    send_command('unbind ^f8')
-    send_command('unbind f10')
-    send_command('unbind f12')
-    send_command('unbind !`')
-    send_command('unbind home')
-    send_command('unbind !f10') 
-    send_command('unbind `f10')
-    send_command('unbind !end')  
-    send_command('unbind ^end')     
+    windower.send_command('unbind insert')            -- Insert Cycles Nuke element
+    windower.send_command('unbind !insert')       -- ALT+Insert Cycles Nuke element in reverse order 
+
+    windower.send_command('unbind f9')           -- F9 to change Idle Mode    
+    windower.send_command('unbind f8')          -- F8 to change Melee Mode  
+    windower.send_command('unbind !f9')             -- Alt-F9 Toggle Melee mode on / off, locking of weapons
+    windower.send_command('unbind home')          -- Home Toggle Main Weapon
+    windower.send_command('unbind !home')       -- ALT-Home Toggle sub Weapon.
+    windower.send_command('unbind !`')             -- Alt-` Quick Stun Shortcut.
+    windower.send_command('unbind delete')        -- delete Cycle Enspell Up
+    windower.send_command('unbind !delete')     -- Alt-delete Cycle Enspell Down
+    windower.send_command('unbind !f10')         -- Alt-F10 to change Nuking Mode
+    windower.send_command('unbind f10')           -- F10 to change Match SC Mode         
+    windower.send_command('unbind !end')                -- Alt-End to toggle light hud version       
+    windower.send_command('unbind ^end')            -- CTRL-End to toggle Keybinds    
 end
 
-include('RDM_Lib.lua')
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+include('RDM_Lib.lua')      -- leave this as is 
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
 
--- Optional. Swap to your sch macro sheet / book
-set_macros(1,7) -- Sheet, Book
-
-refreshType = idleModes[1] -- leave this as is     
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+                --  _____                  __      __        _       _     _
+                -- / ____|                 \ \    / /       (_)     | |   | |
+                --| |  __  ___  __ _ _ __   \ \  / /_ _ _ __ _  __ _| |__ | | ___  ___
+                --| | |_ |/ _ \/ _` | '__|   \ \/ / _` | '__| |/ _` | '_ \| |/ _ \/ __|
+                --| |__| |  __/ (_| | |       \  / (_| | |  | | (_| | |_) | |  __/\__ \
+                -- \_____|\___|\__,_|_|        \/ \__,_|_|  |_|\__,_|_.__/|_|\___||___/
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
 
 -- Setup your Gear Sets below:
 function get_sets()
@@ -553,7 +603,11 @@ function get_sets()
     sets.midcast.Helix = {
 		waist		=	"Refoccilation Stone",
     }	
+        
+    -- Utsu SIRD and DT here
+    sets.midcast.utsu = set_combine(sets.me.idle.dt, {
 
+    })
     -- Whatever you want to equip mid-cast as a catch all for all spells, and we'll overwrite later for individual spells
     sets.midcast.casting = {
         left_ring	=	"Shiva Ring",    
