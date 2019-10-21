@@ -1,4 +1,4 @@
-
+version = "3.0"
 
 --------------------------------------------------------------------------------------------------------------
 local geo_maths = require 'Liz-Maths' -- Vectors and Maths
@@ -28,7 +28,7 @@ function updateRunspeedGear( value , slot , pet)
         equip(sets.me.movespeed)
         disable(slot)
     end
-    if pet ~= nil then
+    if player.main_job == "GEO" or player.main_jon == "SMN" or player.main_jon == "BST" then
         idle(pet)
     else
         idle()
@@ -40,7 +40,7 @@ function lockMainHand( value , pet)
     if value == 'ON' then
         disable('main','sub','ranged')
         validateTextInformation()
-        if pet ~= nil then
+        if player.main_job == "GEO" or player.main_jon == "SMN" or player.main_jon == "BST" then
             idle(pet)
         else
             idle()
@@ -48,7 +48,7 @@ function lockMainHand( value , pet)
     elseif value == 'OFF' or 'AUTO' then
         enable('main','sub','ranged')
         validateTextInformation()
-        if pet ~= nil then
+        if player.main_job == "GEO" or player.main_jon == "SMN" or player.main_jon == "BST" then
             idle(pet)
         else
             idle()
@@ -230,8 +230,9 @@ end
         --Items we want to check every second
         if os.time() > time_start then
             time_start = os.time()
-            auto_cp()
-
+            if auto_CP_Cape then
+                auto_cp()
+            end
             -- check for GEO job otherwise  we dont care about cardinal chant
             if textHideBattle.value == false and player.main_job == 'GEO' then
                 handleChant()
@@ -255,8 +256,7 @@ end
         end
     end)
 
-    function auto_cp()
-
+function auto_cp()
     --Now we check if we need to lock our back for CP
         if player and player.index and windower.ffxi.get_mob_by_index(player.index) then
             jobpoints = windower.ffxi.get_player().job_points[player.main_job:lower()].jp_spent -- check if we are master
@@ -267,7 +267,7 @@ end
                 if #monsterToCheck.name:split(' ') >= 2 then
                     monsterName = T(monsterToCheck.name:split(' '))
                     if monsterName[1] == "Apex" then
-                        if monsterToCheck.hpp < 15 then --Check mobs HP Percentage if below 25 then equip CP cape 
+                        if monsterToCheck.hpp < 15 then --Check mobs HP Percentage if below 15 then equip CP cape 
                             equip({ back = CP_CAPE }) 
                             disable("back") --Lock back
                         else
