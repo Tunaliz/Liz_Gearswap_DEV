@@ -1,8 +1,4 @@
-
-include('Liz-Mappings.lua')
-
-hud_padding = 10
-
+version = "3.0"
 pName = player.name
 
 -- Saying hello
@@ -13,342 +9,19 @@ runspeedslot = 'feet'
 --------------------------------------------------------------------------------------------------------------
 -- HUD STUFF
 --------------------------------------------------------------------------------------------------------------
-
-textHideMode = M(false)
-textHideOptions = M(false)
-textHideJob = M(false)
-textHideBattle = M(false)
-textHideHUB = M(false)
-useLightMode = M(false)
-hud_bottom = false
-useLightMode = M(false)
+wantedSc = tier1sc[elements.current]
+scTier2 = M(false)
 meleeing = M('AUTO', 'OFF', 'ON')
 lock = M('OFF', 'ON')
 mBurst = M(false)
 runspeed = M('OFF', 'ON')
-keybinds = M(false)
 oldElement = elements.current
 mBurstOldValue = mBurst.value
 matchsc = M('AUTO', 'OFF', 'ON')
-
-wantedSc = tier1sc[elements.current]
-scTier2 = M(false)
-
-hud_x_pos_og = hud_x_pos
-hud_y_pos_og = hud_y_pos
-hud_font_size_og = hud_font_size
-hud_padding_og = hud_padding
-hud_transparency_og = hud_transparency
-
-
-MB_Window = 0
+MB_Window = 0   
 time_start = 0
 
--- Standard Mode
-hub_mode_std = [[\cs(255, 115, 0)Modes: \cr              
-\cs(255, 255, 64)${key_bind_idle} \cs(200, 200, 200)Idle:\cr \cs(125,125,255)${player_current_idle|Refresh}
-\cs(255, 255, 64)${key_bind_casting} \cs(200, 200, 200)Casting:\cr \cs(125,125,255)${player_current_casting|Normal}
-\cs(255, 255, 64)${key_bind_regen} \cs(200, 200, 200)Regen:\cr \cs(125,125,255)${player_current_regen|Hybrid}
-]]
-
-hub_options_std = [[ \cs(255, 115, 0)Options: \cr             
-\cs(255, 255, 64)${key_bind_matchsc}\cs(200, 200, 200)Handle Skillchains:\cr ${player_match_sc}
-\cs(255, 255, 64)${key_bind_lock_weapon} \cs(200, 200, 200)Lock Weapon:\cr ${toggle_lock_weapon}
-\cs(255, 255, 64)${key_bind_movespeed_lock}\cs(200, 200, 200)Movement Speed:\cr ${toggle_movespeed_lock}
-]]
-
-hub_job_std = [[ \cs(255, 115, 0)${player_job}: \cr             
-\cs(255, 255, 64)${key_bind_element_cycle} \cs(200, 200, 200)Element:\cr ${element_color|\\cs(0, 204, 204)}${toggle_element_cycle|Ice} \cr           
-\cs(255, 255, 64)${key_bind_sc_level} \cs(200, 200, 200)Skillchain:\cr ${sc_element_color|\\cs(0, 204, 204)}${toggle_sc_level|Induration} 
-]]
-
-hub_battle_std = [[ \cs(255, 115, 0)Battle: \cr             
-        \cs(200, 200, 200)Last SC:\cr ${last_sc_element_color}${last_sc|No SC yet} \cr           
-        \cs(200, 200, 200)Burst Window:\cr ${last_sc_element_color}${burst_window|0} \cr
-        \cs(200, 200, 200)Magic Burst:\cr ${player_current_mb}  \cr        
-]]
-
--- LITE Mode
-hub_mode_lte = [[ \cs(255, 115, 0)      == Modes: \cr              \cs(255, 255, 64)${key_bind_idle} \cs(200, 200, 200)Idle:\cr \cs(125,125,255)${player_current_idle|Refresh              \cs(255, 255, 64)${key_bind_casting} \cs(200, 200, 200)Casting:\cr \cs(125,125,255)${player_current_casting|Normal}              \cs(255, 255, 64)${key_bind_regen} \cs(200, 200, 200)Regen:\cr \cs(125,125,255)${player_current_regen|Hybrid} ]]
-
-hub_options_lte = [[ \cs(255, 115, 0)== Options: \cr              \cs(255, 255, 64)${key_bind_matchsc}\cs(200, 200, 200)Handle Skillchains:\cr ${player_match_sc}            \cs(255, 255, 64)${key_bind_lock_weapon} \cs(200, 200, 200)Lock Weapon:\cr ${toggle_lock_weapon}            \cs(255, 255, 64)${key_bind_movespeed_lock}\cs(200, 200, 200)Movement Speed:\cr ${toggle_movespeed_lock} ]]
-
-hub_job_lte = [[ \cs(255, 115, 0)       == ${player_job}: \cr             \cs(255, 255, 64)${key_bind_element_cycle} \cs(200, 200, 200)Element:\cr ${element_color|\\cs(0, 204, 204)}${toggle_element_cycle|Ice} \cr           \cs(255, 255, 64)${key_bind_sc_level} \cs(200, 200, 200)Skillchain:\cr ${element_color|\\cs(0, 204, 204)}${toggle_sc_level|Induration} ]]
-
-hub_battle_lte = [[ \cs(255, 115, 0) == Battle: \cr             \cs(200, 200, 200)Last SC:\cr ${last_sc_element_color}${last_sc|No SC yet} \cr             \cs(200, 200, 200)Burst Window:\cr ${last_sc_element_color}${burst_window|0} \cr             \cs(200, 200, 200)Magic Burst:\cr ${player_current_mb}  \cr ]]
-
-
--- init style
-hub_mode = hub_mode_std
-hub_options = hub_options_std
-hub_job = hub_job_std
-hub_battle = hub_battle_std
---[[
-    This gets passed in when the Keybinds are turned off.
-    For not it simply sets the variable to an empty string
-    (Researching better way to handle this)
-]]
-keybinds_off = {}
-keybinds_off['key_bind_idle'] = '       '
-keybinds_off['key_bind_casting'] = '       '
-keybinds_off['key_bind_mburst'] = '       '
-keybinds_off['key_bind_regen'] = '       '
-keybinds_off['key_bind_element_cycle'] = '       '
-keybinds_off['key_bind_sc_level'] = '       '
-keybinds_off['key_bind_lock_weapon'] = '       '
-keybinds_off['key_bind_movespeed_lock'] = '        '
-keybinds_off['key_bind_matchsc'] = '        '
-
-function validateTextInformation()
-
-    --Mode Information
-    if refreshType == "sublimation" then
-        main_text_hub.player_current_idle = tostring(idleModes.current..' + \\cs(32, 255, 32)Sublimation\\cr')
-    else
-        main_text_hub.player_current_idle = idleModes.current
-    end
-    main_text_hub.player_current_casting = nukeModes.current
-    main_text_hub.toggle_element_cycle = elements.current
-    main_text_hub.player_current_regen = regenModes.current    
-    main_text_hub.toggle_sc_level = wantedSc
-    main_text_hub.player_job = player.job
-
-    if last_skillchain ~= nil then
-        main_text_hub.last_sc = last_skillchain.english
-        main_text_hub.burst_window = tostring(MB_Window)
-        main_text_hub.last_sc_element_color = Colors[last_skillchain.elements[1]]
-    end
-
-    if mBurst.value then
-        main_text_hub.player_current_mb = const_on
-    else
-        main_text_hub.player_current_mb = const_off
-    end
-
-    if matchsc.value == 'OFF' then
-        main_text_hub.player_match_sc = const_off
-    elseif matchsc.value == 'ON' then
-        main_text_hub.player_match_sc = const_on
-	else
-        if mBurst.value then
-            main_text_hub.player_match_sc = const_autoOn
-        else
-            main_text_hub.player_match_sc = const_autoOff
-        end
-    end
-
-    if meleeing.value == "OFF" then
-        main_text_hub.toggle_lock_weapon = const_off
-    elseif meleeing.value == "ON" then
-        main_text_hub.toggle_lock_weapon = const_on
-    else
-        if player.tp >= lockWeaponTP then
-            main_text_hub.toggle_lock_weapon = const_autoOn
-        else
-            main_text_hub.toggle_lock_weapon = const_autoOff
-        end
-    end
-
-    if runspeed.value == 'ON' then
-		if autorunspeed then
-			main_text_hub.toggle_movespeed_lock =  const_autoOn
-		else
-			main_text_hub.toggle_movespeed_lock =  const_on
-		end
-    elseif runspeed.value == 'OFF' then
-		if autorunspeed then
-			main_text_hub.toggle_movespeed_lock =  const_autoOff
-		else
-			main_text_hub.toggle_movespeed_lock =  const_off
-		end
-    end
-    
-    if keybinds.value then
-        texts.update(main_text_hub, keybinds_on)
-    else 
-        texts.update(main_text_hub, keybinds_off)
-    end
-    main_text_hub.element_color = Colors[elements.current]
-    main_text_hub.sc_element_color = scColor
-end
-
---Default To Set Up the Text Window
-function setupTextWindow()
-
-    local default_settings = {}
-    default_settings.pos = {}
-    default_settings.pos.x = hud_x_pos
-    default_settings.pos.y = hud_y_pos
-    default_settings.bg = {}
-
-    default_settings.bg.alpha = hud_transparency
-    default_settings.bg.red = 40
-    default_settings.bg.green = 40
-    default_settings.bg.blue = 55
-    default_settings.bg.visible = true
-    default_settings.flags = {}
-    default_settings.flags.right = false
-    default_settings.flags.bottom = false
-    default_settings.flags.bold = true
-    default_settings.flags.draggable = hud_draggable
-    default_settings.flags.italic = false
-    default_settings.padding = hud_padding
-    default_settings.text = {}
-    default_settings.text.size = hud_font_size
-    default_settings.text.font = hud_font
-    default_settings.text.fonts = {}
-    default_settings.text.alpha = 255
-    default_settings.text.red = 147
-    default_settings.text.green = 161
-    default_settings.text.blue = 161
-    default_settings.text.stroke = {}
-    default_settings.text.stroke.width = 1
-    default_settings.text.stroke.alpha = 255
-    default_settings.text.stroke.red = 0
-    default_settings.text.stroke.green = 0
-    default_settings.text.stroke.blue = 0
-
-    --Creates the initial Text Object will use to create the different sections in
-    if not (main_text_hub == nil) then
-        texts.destroy(main_text_hub)
-    end
-    main_text_hub = texts.new('', default_settings, default_settings)
-
-    --Appends the different sections to the main_text_hub
-    texts.append(main_text_hub, hub_mode)
-    texts.append(main_text_hub, hub_options)
-    texts.append(main_text_hub, hub_job)
-    texts.append(main_text_hub, hub_battle)
-    --We then do a quick validation
-    validateTextInformation()
-
-    --Finally we show this to the user
-    main_text_hub:show()
-    
-end
---[[
-    This handles hiding the different sections
-]]
-function hideTextSections()
-
-    --For now when hiding a section its easier to recreate the entire window
-    texts.clear(main_text_hub)
-    
-    --Below we check to make sure this is true by default these are false
-    if not textHideMode.value then
-        texts.append(main_text_hub, hub_mode)
-
-    end
-    if not textHideOptions.value then
-        texts.append(main_text_hub, hub_options)
-    end
-    if not textHideJob.value then
-        texts.append(main_text_hub, hub_job)
-    end
-    if not textHideBattle.value then
-        texts.append(main_text_hub, hub_battle)
-    end
-    validateTextInformation()
-
-end
-
-function toggleHudStyle( useLightMode )
-    texts.clear(main_text_hub)
-    if useLightMode then
-        hud_x_pos = 0     
-        hud_y_pos = 0
-        hud_font_size = 8
-        hud_padding = 2
-        hud_transparency = 0
-        hud_strokewidth = 2
-        hub_options = hub_options_lte
-        hub_mode = hub_mode_lte
-        hub_job = hub_job_lte
-        hub_battle = hub_battle_lte
-    else
-        hud_x_pos = hud_x_pos_og
-        hud_y_pos = hud_y_pos_og
-        hud_font_size = hud_font_size_og
-        hud_padding = hud_padding_og
-        hud_transparency = hud_transparency_og
-        hud_strokewidth = 1
-        hub_options = hub_options_std
-        hub_mode = hub_mode_std
-        hub_battle = hub_battle_std
-        hub_job = hub_job_std
-    end
-    texts.pos(main_text_hub, hud_x_pos, hud_y_pos)
-    texts.size(main_text_hub, hud_font_size)
-    texts.pad(main_text_hub, hud_padding)
-    texts.bg_alpha(main_text_hub, hud_transparency)
-    texts.stroke_width(main_text_hub, hud_strokewidth)      
-    hideTextSections()
-end
-
-function hud_command(command)
- 
-    local commandArgs = command
-    
-    if #commandArgs:split(' ') >= 2 then
-        commandArgs = T(commandArgs:split(' '))
-        
-        if commandArgs[1]:lower() == "hud" then --First variable is hide lets find out what
-
-            if commandArgs[2]:lower() == "hide" then -- Hides/Shows the HUB
-                textHideHUB:toggle()
-
-                if textHideHUB.value == true then
-                    texts.hide(main_text_hub)
-                else 
-                    texts.show(main_text_hub)
-                end
-
-                hideTextSections()
-            elseif commandArgs[2]:lower() == "keybinds" then --Hides/Show Keybinds
-                keybinds:toggle()
-
-                if keybinds.value then
-                    texts.update(main_text_hub, keybinds_on) --If ON then we pass in Table for keybinds to update the variables
-                else 
-                    texts.update(main_text_hub, keybinds_off) --Otherwise we set them to blank
-                end
-
-                hideTextSections()
-            elseif commandArgs[2]:lower() == "hidemodes" then --Hides the Mode
-                textHideMode:toggle()
-                hideTextSections()
-            elseif commandArgs[2]:lower() == "hideoptions" then --Hides/Show Scholar sectio
-                textHideOptions:toggle()
-                hideTextSections()
-            elseif commandArgs[2]:lower() == "hidejob" then --Hides/Show Battle section
-                textHideJob:toggle()
-                hideTextSections()
-            elseif commandArgs[2]:lower() == "hidebattle" then --Hides/Show Battle section
-                textHideBattle:toggle()
-                hideTextSections()
-            elseif commandArgs[2]:lower() == "lite" then --Hides/Show Options
-                useLightMode:toggle()
-                toggleHudStyle(useLightMode.value)
-            
-            end
-        end
-    end
-end
-
---------------------------------------------------------------------------------------------------------------
-include('Liz-HelperFunctions.lua')
---------------------------------------------------------------------------------------------------------------
-
-
-if use_UI == true then
-    setupTextWindow()
-else
-    windower.add_to_chat(211,'Nuke now set to element type: '..tostring(elements.current))   
-    windower.add_to_chat(211,'SC now set to: '..tostring(wantedSc))     
-    windower.add_to_chat(211,'Idle mode now set to: '..tostring(idleModes.current))  
-    windower.add_to_chat(211,'Regen mode now set to: '..tostring(regenModes.current))    
-    windower.add_to_chat(211,'Nuke mode now set to: '..tostring(nukeModes.current))  
-end
+setupTextWindow()
 
 Buff = 
     {
@@ -395,18 +68,14 @@ function buff_refresh(name,buff_details)
     -- Update SCH statagems when a buff refreshes.
     update_active_strategems()
     update_sublimation()
-    if use_UI == true then
-        validateTextInformation()
-    end
+    validateTextInformation()
 end
 
 function buff_change(name,gain,buff_details)
     -- Update SCH statagems when a buff is gained or lost.
     update_active_strategems()
     update_sublimation()
-    if use_UI == true then
-        validateTextInformation()
-    end
+    validateTextInformation()
 end
  
 function precast(spell)
@@ -618,41 +287,21 @@ function self_command(command)
                 idleModes:cycle()
                 idle()
                 if buffactive['Sublimation: Activated'] then                 
-                    if use_UI == true then
-                        update_sublimation()
-                        validateTextInformation()
-                    else
-                        windower.add_to_chat(4,"----- Idle mode Now focus on: "..tostring(idleModes.value).." in Sublimation Mode. ----")  
-                    end
+                    update_sublimation()
+                    validateTextInformation()
                 -- We don't have sublimation ticking.
                 else
-                    if use_UI == true then
-                        validateTextInformation()
-                    else
-                        windower.add_to_chat(4,"----- Idle mode Now focus on: "..tostring(idleModes.value))
-                    end
+                    validateTextInformation()
                 end
             elseif commandArgs[2] == 'regenmode' then
-                regenModes:cycle()
-                if use_UI == true then                    
-                    validateTextInformation()
-                else
-                    windower.add_to_chat(8,"----- Regen Mode Now focus on: "..tostring(regenModes.current)) 
-                end     
+                regenModes:cycle()                 
+                validateTextInformation()   
             elseif commandArgs[2] == 'nukemode' then
-                nukeModes:cycle()               
-                if use_UI == true then                    
-                    validateTextInformation()
-                else
-                    windower.add_to_chat(8,"----- Nuking Mode is now: "..tostring(nukeModes.current)) 
-                end   
+                nukeModes:cycle()                               
+                validateTextInformation() 
             elseif commandArgs[2] == 'matchsc' then
-                matchsc:cycle()               
-                if use_UI == true then                    
-                    validateTextInformation()
-                else
-                    windower.add_to_chat(8,"----- Matching SC Mode is now: "..tostring(matchsc.current)) 
-                end
+                matchsc:cycle()                               
+                validateTextInformation()
             end
         end
         
@@ -675,22 +324,14 @@ function self_command(command)
                     elements:cycleback() 
                     oldElement = elements.current
                 end         
-                updateSC(elements.current, scTier2.value)  
-                if use_UI == true then                    
-                    validateTextInformation()
-                else
-                    windower.add_to_chat(211,'Nuke now set to element type: '..tostring(elements.current))
-                end   
+                updateSC(elements.current, scTier2.value)                    
+                validateTextInformation()
 
             elseif (nuke == 'air' or nuke == 'ice' or nuke == 'fire' or nuke == 'water' or nuke == 'lightning' or nuke == 'earth' or nuke == 'light' or nuke == 'dark') then
                 local newType = commandArgs[2]
                 elements:set(newType)
-                updateSC(elements.current, scTier2.value)  
-                if use_UI == true then                    
-                    validateTextInformation()
-                else
-                    windower.add_to_chat(211,'Nuke now set to element type: '..tostring(elements.current))
-                end 
+                updateSC(elements.current, scTier2.value)                
+                validateTextInformation()
             elseif not nukes[nuke] then
                 windower.add_to_chat(123,'Unknown element type: '..tostring(commandArgs[2]))
                 return              
