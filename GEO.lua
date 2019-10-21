@@ -39,7 +39,13 @@
         gs c hud hidebattle             Toggles the Battle section of the HUD on or off
         gs c hud lite                   Toggles the HUD in lightweight style for less screen estate usage. Also on ALT-END
         gs c hud keybinds               Toggles Display of the HUD keybindings (my defaults) You can change just under the binds in the Gearsets file.
+        gs c hud setcolor sections      Cycles colors for sections
+        gs c hud setcolor options       Cycles colors for options
+        gs c hud setcolor keybinds      Cycles colors for keybinds
+        gs c hud setcolor selection     Cycles colors for selection
 
+        Alternatively you can also add the color after those command like: //gs c hud setcolor options blue
+        
         // OPTIONAL IF YOU WANT / NEED to skip the cycles...  
         gs c nuke Ice                   Set Element Type to Ice DO NOTE the Element needs a Capital letter. 
         gs c nuke Air                   Set Element Type to Air DO NOTE the Element needs a Capital letter. 
@@ -50,16 +56,60 @@
         gs c nuke Water                 Set Element Type to Water DO NOTE the Element needs a Capital letter. 
         gs c nuke Fire                  Set Element Type to Fire DO NOTE the Element needs a Capital letter. 
 --]]
-
-
-include('organizer-lib') -- Remove if you dont use Organizer
-
 --------------------------------------------------------------------------------------------------------------
-res = require('resources')      -- leave this as is    
-texts = require('texts')        -- leave this as is    
-include('Modes.lua')            -- leave this as is      
 --------------------------------------------------------------------------------------------------------------
+--              ______                   _                  
+--             / _____)        _     _  (_)                 
+--            ( (____  _____ _| |_ _| |_ _ ____   ____  ___ 
+--             \____ \| ___ (_   _|_   _) |  _ \ / _  |/___)
+--             _____) ) ____| | |_  | |_| | | | ( (_| |___ |
+--            (______/|_____)  \__)  \__)_|_| |_|\___ (___/ 
+--                                              (_____|    
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+-- Set this to true and as soon as you move you swap into movespeed set, and revert when stationary
+-- Set it to false and the movespeed toggle is manual. 
+autorunspeed = true
+auto_CP_Cape = false
+-- TP treshold where weapons gets locked. 
+lockWeaponTP = 500
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+-- HUD Initial setup and Positioning
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+hud_x_pos = 1400    --important to update these if you have a smaller screen
+hud_y_pos = 200     --important to update these if you have a smaller screen
+hud_draggable = true
+hud_font_size = 10
+hud_transparency = 225 -- a value of 0 (invisible) to 255 (no transparency at all)
+hud_font = 'Impact'
+hud_padding = 10
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+include('Liz-Includes.lua')
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+-- Customize HUD looks and content
+-- Colors: ('red', 'blue', 'green', 'white', 'yellow', 'cyan', 'magenta', 'black', 'orange')
 
+sectionsColors:set('orange')
+keybindsColors:set('yellow')
+optionsColors:set('white')
+selectionColors:set('blue')   
+
+textHideMode:set(false)
+textHideOptions:set(false)
+textHideJob:set(false)
+textHideBattle:set(false)
+textHideHUD:set(false)
+useLightMode:set(false)
+keybinds:set(false)
+
+-- Optional. Swap to your sch macro sheet / book
+set_macros(1,5) -- Sheet, Book   
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
 -- Define your modes: 
 -- You can add or remove modes in the table below, they will get picked up in the cycle automatically. 
 -- to define sets for idle if you add more modes, name them: sets.me.idle.mymode and add 'mymode' in the group.
@@ -69,37 +119,34 @@ idleModes = M('normal', 'dt', 'mdt')
 -- To add a new mode to nuking, you need to define both sets: sets.midcast.nuking.mynewmode as well as sets.midcast.MB.mynewmode
 nukeModes = M('normal', 'acc')
 
--- Set this to true and as soon as you move you swap into movespeed set, and revert when stationary
--- Set it to false and the movespeed toggle is manual. 
-autorunspeed = false
+-- Defults when you load the job / lua
+geomancy:set('Geo-Frailty')     -- Geo Spell Default        (when you first load lua / change jobs the saved spells is this one)
+indicolure:set('Indi-Fury')    -- Indi Spell Default       (when you first load lua / change jobs the saved spells is this one)
+entrustindi:set('Indi-Haste')    -- Enttrust Spell Default   (when you first load lua / change jobs the saved spells is this one)
 
--- TP treshold where weapons gets locked. 
-lockWeaponTP = 500
-
--- Setting this to true will stop the text spam, and instead display modes in a UI.
--- Currently in construction.
-use_UI = true
-hud_x_pos = 1400    --important to update these if you have a smaller screen
-hud_y_pos = 200     --important to update these if you have a smaller screen
-hud_draggable = true
-hud_font_size = 10
-hud_transparency = 200 -- a value of 0 (invisible) to 255 (no transparency at all)
-hud_font = 'Impact'
-
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
 -- Setup your Key Bindings here:  
-    windower.send_command('bind insert gs c nuke cycle')            -- insert Cycles Nuke element
-    windower.send_command('bind delete gs c nuke cycledown')        -- delete Cycles Nuke element in reverse order   
-    windower.send_command('bind home gs c geo geocycle') 			-- home Cycles Geomancy Spell
-    windower.send_command('bind PAGEUP gs c geo geocycledown') 		-- PgUP Cycles Geomancy Spell in reverse order	
-    windower.send_command('bind PAGEDOWN gs c geo indicycle') 		-- PgDOWN Cycles IndiColure Spell
-    windower.send_command('bind end gs c geo indicycledown') 	    -- End Cycles IndiColure Spell in reverse order	
-    windower.send_command('bind !PAGEDOWN gs c geo entrustcycle') 	-- ALT-PgDown Cycles Entrust IndiColure Spell
-    windower.send_command('bind !end gs c geo entrustcledown') 	    -- ALT-End Cycles Entrust IndiColure Spell in reverse order	
+    windower.send_command('bind insert gs c nuke cycle')            -- Insert Cycles Nuke element
+    windower.send_command('bind !insert gs c nuke cycledown')       -- ALT+Insert Cycles Nuke element in reverse order   
+    
+    windower.send_command('bind delete gs c geo geocycle') 			-- Delete Cycles Geomancy Spell
+    windower.send_command('bind !delete gs c geo geocycledown') 	-- ALT+Delete Cycles Geomancy Spell in reverse order	
+    
+    windower.send_command('bind home gs c geo indicycle') 		    -- Home Cycles IndiColure Spell
+    windower.send_command('bind !home gs c geo indicycledown') 	    -- ALT+Home Cycles IndiColure Spell in reverse order	
+    
+    windower.send_command('bind PAGEUP gs c geo entrustcycle') 	    -- PgUp Cycles Entrust IndiColure Spell
+    windower.send_command('bind !PAGEUP gs c geo entrustcledown') 	-- ALT-PgUp Cycles Entrust IndiColure Spell in reverse order	
+    
     windower.send_command('bind !f9 gs c toggle runspeed') 			-- Alt-F9 toggles locking on / off Herald's Gaiters
     windower.send_command('bind !f10 gs c toggle nukemode')         -- Alt-F10 to change Nuking Mode
     windower.send_command('bind F10 gs c toggle matchsc')           -- F10 to change Match SC Mode         
     windower.send_command('bind f12 gs c toggle melee')				-- F12 Toggle Melee mode on / off and locking of weapons
 	windower.send_command('bind f9 gs c toggle idlemode')			-- F9 Toggles between MasterRefresh or MasterDT when no luopan is out
+    
+    windower.send_command('bind !end gs c hud lite')            -- Alt-End to toggle light hud version       
+    windower.send_command('bind ^end gs c hud keybinds')        -- CTRL-End to toggle Keybinds  
 --[[
     This gets passed in when the Keybinds is turned on.
     Each one matches to a given variable within the text object
@@ -111,10 +158,10 @@ keybinds_on['key_bind_regen'] = '(END)'
 keybinds_on['key_bind_casting'] = '(ALT-F10)'
 keybinds_on['key_bind_matchsc'] = '(F10)'
 
-keybinds_on['key_bind_element_cycle'] = '(INS or DEL)'
-keybinds_on['key_bind_geo_cycle'] = '(HOME or PgUP)'
-keybinds_on['key_bind_indi_cycle'] = '(End or PgDOWN)'
-keybinds_on['key_bind_entrust_cycle'] = '(ALT + End or PgDOWN)'
+keybinds_on['key_bind_element_cycle'] = '(INS)'
+keybinds_on['key_bind_geo_cycle'] = '(DEL)'
+keybinds_on['key_bind_indi_cycle'] = '(HOME)'
+keybinds_on['key_bind_entrust_cycle'] = '(PAGEUP)'
 keybinds_on['key_bind_lock_weapon'] = '(F12)'
 keybinds_on['key_bind_movespeed_lock'] = '(ALT-F9)'
 
@@ -137,17 +184,23 @@ function user_unload()
 end
 
 --------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
 include('GEO_Lib.lua')          -- leave this as is     
 --------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
 
-geomancy:set('Geo-Frailty')     -- Geo Spell Default		(when you first load lua / change jobs the saved spells is this one)
-indicolure:set('Indi-Haste')    -- Indi Spell Default		(when you first load lua / change jobs the saved spells is this one)
-entrustindi:set('Indi-Fury')    -- Enttrust Spell Default	(when you first load lua / change jobs the saved spells is this one)
 validateTextInformation()
 
--- Optional. Swap to your sch macro sheet / book
-set_macros(1,5) -- Sheet, Book   
-    
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+                --  _____                  __      __        _       _     _
+                -- / ____|                 \ \    / /       (_)     | |   | |
+                --| |  __  ___  __ _ _ __   \ \  / /_ _ _ __ _  __ _| |__ | | ___  ___
+                --| | |_ |/ _ \/ _` | '__|   \ \/ / _` | '__| |/ _` | '_ \| |/ _ \/ __|
+                --| |__| |  __/ (_| | |       \  / (_| | |  | | (_| | |_) | |  __/\__ \
+                -- \_____|\___|\__,_|_|        \/ \__,_|_|  |_|\__,_|_.__/|_|\___||___/
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------    
 -- Setup your Gear Sets below:
 function get_sets()
   
