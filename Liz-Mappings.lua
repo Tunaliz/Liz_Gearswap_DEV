@@ -1,3 +1,4 @@
+version = "3.0"
 
 -------------------------------------------------------------------------------------------------------------------
 -- Spell mappings allow defining a general category or description that each of sets of related
@@ -106,6 +107,7 @@ nukes.t5 = {['Earth']="Stone V",    ['Water']="Water V",    ['Air']="Aero V",   
 nukes.helix2 = {['Earth']="Geohelix II",  ['Water']="Hydrohelix II", ['Air']="Anemohelix II",['Fire']="Pyrohelix II", ['Ice']="Cryohelix II", ['Lightning']="Ionohelix II",    ['Light']="Luminohelix II", ['Dark']="Noctohelix II"}
 nukes.helix = {['Earth']="Geohelix",  ['Water']="Hydrohelix", ['Air']="Anemohelix",['Fire']="Pyrohelix", ['Ice']="Cryohelix", ['Lightning']="Ionohelix",    ['Light']="Luminohelix", ['Dark']="Noctohelix"}
 nukes.storm = {['Earth']="Sandstorm", ['Water']="Rainstorm",  ['Air']="Windstorm", ['Fire']="Firestorm", ['Ice']="Hailstorm", ['Lightning']="Thunderstorm", ['Light']="Aurorastorm", ['Dark']="Voidstorm"}
+nukes.storm2 = {['Earth']="Sandstorm II", ['Water']="Rainstorm II",  ['Air']="Windstorm II", ['Fire']="Firestorm II", ['Ice']="Hailstorm II", ['Lightning']="Thunderstorm II", ['Light']="Aurorastorm II", ['Dark']="Voidstorm II"}
 nukes.enspell = {['Earth']="Enstone", ['Water']="Enwater",  ['Air']="Enaero", ['Fire']="Enfire", ['Ice']="Enblizzard", ['Lightning']="Enthunder", ['Light']="Enthunder", ['Dark']="Enblizzard"}
 nukes.ra1 = {['Earth']="Stonera",    ['Water']="Watera",    ['Air']="Aera",    ['Fire']="Fira",    ['Ice']="Blizzara",    ['Lightning']="Thundara",    ['Light']="Thundara",    ['Dark']="Blizzara"}
 nukes.ra2 = {['Earth']="Stonera II", ['Water']="Watera II", ['Air']="Aera II", ['Fire']="Fira II", ['Ice']="Blizzara II", ['Lightning']="Thundara II", ['Light']="Thundara II", ['Dark']="Blizzara II"}
@@ -120,25 +122,6 @@ indicolure = M('Indi-Acumen', 'Indi-Attunement', 'Indi-Barrier', 'Indi-STR', 'In
 entrustindi = M('Indi-Acumen', 'Indi-Attunement', 'Indi-Barrier', 'Indi-STR', 'Indi-DEX', 'Indi-VIT', 'Indi-AGI', 'Indi-INT', 'Indi-MND', 'Indi-CHR', 'Indi-Fade',
              'Indi-Fend', 'Indi-Focus', 'Indi-Frailty', 'Indi-Fury', 'Indi-Gravity', 'Indi-Haste', 'Indi-Languor', 'Indi-Malaise', 'Indi-Paralysis', 
              'Indi-Poison', 'Indi-Precision', 'Indi-Refresh', 'Indi-Regen', 'Indi-Slip', 'Indi-Slow', 'Indi-Torpor', 'Indi-Vex', 'Indi-Voidance', 'Indi-Wilt')
-
--- Colors for Text
-Colors = {
-    ["Fire"] = "\\cs(204, 0, 0)", 
-    ["Water"] = "\\cs(0, 102, 204)", 
-    ["Air"] = "\\cs(51, 102, 0)", 
-    ["Light"] = "\\cs(255, 255, 255)", 
-    ["Earth"] = "\\cs(139, 139, 19)", 
-    ["Ice"] = "\\cs(0, 204, 204)", 
-    ["Lightning"] = "\\cs(102, 0, 204)",
-    ['Dark']="\\cs(92, 92, 92)"
-}
-
-scColor = "\\cs(0, 204, 204)"
-
-const_on = "\\cs(32, 255, 32)ON\\cr"
-const_off = "\\cs(255, 32, 32)OFF\\cr"
-const_autoOff = "\\cs(255, 32, 32)AUTO\\cr"
-const_autoOn = "\\cs(32, 255, 32)AUTO\\cr"
 
 cChant = "No Target"
 ccColor = Colors["Fire"]
