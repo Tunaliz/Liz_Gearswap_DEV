@@ -1,3 +1,5 @@
+version = "3.0"
+
 -- Vector Maths derived from 
 -- https://github.com/bjornbytes/maf
 -- MIT License
