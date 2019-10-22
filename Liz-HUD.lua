@@ -51,17 +51,8 @@ hudColors = {
     ['black']="\\cs(92, 92, 92)"
 }
 
--- Colors for elements
-Colors = {
-    ["Fire"] = "\\cs(204, 0, 0)", 
-    ["Water"] = "\\cs(0, 102, 204)", 
-    ["Air"] = "\\cs(51, 102, 0)", 
-    ["Light"] = "\\cs(255, 255, 255)", 
-    ["Earth"] = "\\cs(139, 139, 19)", 
-    ["Ice"] = "\\cs(0, 204, 204)", 
-    ["Lightning"] = "\\cs(102, 0, 204)",
-    ['Dark']="\\cs(92, 92, 92)"
-}
+cChant = "No Target"
+ccColor = hudColors["red"]
 
 scColor = "\\cs(0, 204, 204)"
 
@@ -69,9 +60,9 @@ const_on = "\\cs(32, 255, 32)ON\\cr"
 const_off = "\\cs(255, 32, 32)OFF\\cr"
 const_autoOff = "\\cs(255, 32, 32)AUTO\\cr"
 const_autoOn = "\\cs(32, 255, 32)AUTO\\cr"
+
 hud_endofline = [[\cr
 ]]
-
 hud_idleMode = ''
 hud_meleeMode = ''
 hud_nukingMode = ''
@@ -87,13 +78,6 @@ hud_lockMovespeed = ''
 hud_lastSC = ''
 hud_burstWindow = ''
 hud_magicBurst = ''
-
-
-
-hub_job_std = [[ \cs(255, 115, 0)${player_job}: \cr                   
-  
-${options_color}Cardinal Chant:\cr ${card_chant_color}${card_chant|No Target}  
-]]
 
 --------------------------------------------------------------------------------------------------------------
 -- HUD LISTINGS --
