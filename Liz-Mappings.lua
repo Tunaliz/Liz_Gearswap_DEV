@@ -123,8 +123,17 @@ entrustindi = M('Indi-Acumen', 'Indi-Attunement', 'Indi-Barrier', 'Indi-STR', 'I
              'Indi-Fend', 'Indi-Focus', 'Indi-Frailty', 'Indi-Fury', 'Indi-Gravity', 'Indi-Haste', 'Indi-Languor', 'Indi-Malaise', 'Indi-Paralysis', 
              'Indi-Poison', 'Indi-Precision', 'Indi-Refresh', 'Indi-Regen', 'Indi-Slip', 'Indi-Slow', 'Indi-Torpor', 'Indi-Vex', 'Indi-Voidance', 'Indi-Wilt')
 
-cChant = "No Target"
-ccColor = Colors["Fire"]
+-- Colors for elements
+Colors = {
+    ["Fire"] = "\\cs(204, 0, 0)", 
+    ["Water"] = "\\cs(0, 102, 204)", 
+    ["Air"] = "\\cs(51, 102, 0)", 
+    ["Light"] = "\\cs(255, 255, 255)", 
+    ["Earth"] = "\\cs(139, 139, 19)", 
+    ["Ice"] = "\\cs(0, 204, 204)", 
+    ["Lightning"] = "\\cs(102, 0, 204)",
+    ['Dark']="\\cs(92, 92, 92)"
+}
 
 skillchains = {
     [288] = {id=288,english='Light',elements={'Light','Fire','Lightning','Wind'}, color=Colors[4]},
