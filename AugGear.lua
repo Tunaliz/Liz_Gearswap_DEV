@@ -136,7 +136,7 @@ if  ( player.main_job == "MNK" or
 	Herc.Feet.WS		  =	{ name="Herculean Boots", augments={'Accuracy+21 Attack+21','Weapon skill damage +4%','AGI+3','Accuracy+13','Attack+7',}}
 	Herc.Feet.PetTP		=	{ name="Herculean Boots", augments={'Pet: Accuracy+26 Pet: Rng. Acc.+26','Pet: "Store TP"+10','Pet: STR+2','Pet: Attack+10 Pet: Rng.Atk.+10','Pet: "Mag.Atk.Bns."+5',}}
 	Herc.Feet.PetDA		=	{ name="Herculean Boots", augments={'Pet: Accuracy+23 Pet: Rng. Acc.+23','Pet: "Dbl. Atk."+3','Pet: DEX+11','Pet: Attack+10 Pet: Rng.Atk.+10','Pet: "Mag.Atk.Bns."+10',}}    
-	Herc.Body.TP		  =	{ name="Herculean Vest", augments={'Accuracy+18 Attack+18','"Triple Atk."+2','DEX+1','Accuracy+3','Attack+15',}}	
+	Herc.Body.WS		  =	{ name="Herculean Vest", augments={'Attack+30','Weapon skill damage +4%','STR+4','Accuracy+10',}}
 end
 
 if  ( player.main_job == "WAR" or

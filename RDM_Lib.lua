@@ -42,7 +42,14 @@ function update_active_ja(name, gain)
     Buff['En-Weather'] = buffactive[nukes.enspell[world.weather_element]] or false
     Buff['En-Day'] = buffactive[nukes.enspell[world.day_element]] or false
 	Buff['En-BadDay'] = buffactive[nukes.enspell[element.strong_to[world.day_element]]] or false
-    Buff['Enspell'] = buffactive[nukes.enspell[1]] or buffactive[nukes.enspell[2]] or buffactive[nukes.enspell[3]] or buffactive[nukes.enspell[4]] or buffactive[nukes.enspell[5]] or buffactive[nukes.enspell[6]] or buffactive[nukes.enspell[7]] or buffactive[nukes.enspell[8]] or false
+    Buff['Enspell'] =   buffactive[nukes.enspell['Earth']] or 
+                        buffactive[nukes.enspell['Water']] or 
+                        buffactive[nukes.enspell['Air']] or 
+                        buffactive[nukes.enspell['Fire']] or 
+                        buffactive[nukes.enspell['Ice']] or 
+                        buffactive[nukes.enspell['Lightning']] or 
+                        buffactive[nukes.enspell['Light']] or 
+                        buffactive[nukes.enspell['Dark']] or false
 end
 
 function buff_refresh(name,buff_details)

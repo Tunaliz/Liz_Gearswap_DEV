@@ -97,12 +97,12 @@ function construct_HUD_Categories( useLightMode )
 			hud_nukingMode = ''
 		end
 		if mainWeapon ~= nil then
-			hud_mainWeapon = [[        ${keybinds_color}${key_bind_mainweapon}${options_color}Main Weapon:\cr ${selection_color}${player_current_mainweapon|]]..player.equipment.main..[[}]]
+			hud_mainWeapon = [[        ${keybinds_color}${key_bind_mainweapon}${options_color}Main Weapon:\cr ${selection_color}${player_current_mainweapon|Unset}]]
 		else
 			hud_mainWeapon = ''
 		end
 		if subWeapon ~= nil then
-			hud_subWeapon = [[        ${keybinds_color}${key_bind_subweapon}${options_color}Sub Weapon:\cr ${selection_color}${player_current_subweapon|]]..player.equipment.sub..[[}]]
+			hud_subWeapon = [[        ${keybinds_color}${key_bind_subweapon}${options_color}Sub Weapon:\cr ${selection_color}${player_current_subweapon|Unset}]]
 		else
 			hud_subWeapon = ''
 		end
@@ -158,13 +158,13 @@ function construct_HUD_Categories( useLightMode )
 		        ${keybinds_color}${key_bind_casting}${options_color}Nuking:\cr ${selection_color}${player_current_casting|Unset}]]
 		if mainWeapon ~= nil then
 			hud_mainWeapon = [[\cr 
-			        ${keybinds_color}${key_bind_mainweapon}${options_color}Main Weapon:\cr ${selection_color}${player_current_mainweapon|]]..player.equipment.main..[[}]]
+			        ${keybinds_color}${key_bind_mainweapon}${options_color}Main Weapon:\cr ${selection_color}${player_current_mainweapon|Unset}]]
 		else
 			hud_mainWeapon = ''
 		end
 		if subWeapon ~= nil then
 			hud_subWeapon = [[\cr 
-			        ${keybinds_color}${key_bind_subweapon}${options_color}Sub Weapon:\cr ${selection_color}${player_current_subweapon|]]..player.equipment.sub..[[}]]
+			        ${keybinds_color}${key_bind_subweapon}${options_color}Sub Weapon:\cr ${selection_color}${player_current_subweapon|Unset}]]
 		else
 			hud_mainWeapon = ''
 		end

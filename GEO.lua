@@ -78,7 +78,7 @@ lockWeaponTP = 500
 -- HUD Initial setup and Positioning
 --------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------
-hud_x_pos = 1400    --important to update these if you have a smaller screen
+hud_x_pos = 1400     --important to update these if you have a smaller screen
 hud_y_pos = 200     --important to update these if you have a smaller screen
 hud_draggable = true
 hud_font_size = 10
@@ -522,7 +522,6 @@ function get_sets()
     })
 	-- For Indi Spells
     sets.midcast.indi = set_combine(sets.midcast.geo,{
-        main="Solstice",
         legs="Bagua Pants +1",
     })
 	

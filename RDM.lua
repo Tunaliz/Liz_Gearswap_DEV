@@ -307,7 +307,7 @@ function get_sets()
     sets.me.latent_refresh = {waist="Fucho-no-obi"}     
     
 	-- Combat Related Sets
-    sets.me.melee.normaldw = set_combine(sets.me.idle.normal,{   
+    sets.me.melee.normaldw = set_combine(sets.me.idle.refresh,{   
         ammo		=	"Ginsen",
         head		=	Taeon.Head.TP,
         body		=	"Ayanmo Corazza +2",
@@ -319,7 +319,8 @@ function get_sets()
         waist		=	"Windbuffet Belt +1",
         left_ear	=	"Telos Earring",
         right_ear	=	"Sherida Earring",
-        right_ring	=	{name="Chirich Ring +1", bag="wardrobe3"},
+        right_ring  =   "Hetairoi Ring",
+
         back		=	RDMCape.TP,   
     })
     sets.me.melee.accdw = set_combine(sets.me.melee.normaldw,{
@@ -327,6 +328,7 @@ function get_sets()
         neck		=	"Sanctity Necklace",
         right_ear	=	"Mache Earring +1",
         waist		=	"Grunfeld Rope",
+        right_ring  =   {name="Chirich Ring +1", bag="wardrobe3"},
     })
     sets.me.melee.dtdw = set_combine(sets.me.melee.normaldw,{
         neck		=	"Twilight Torque",
@@ -345,7 +347,7 @@ function get_sets()
 
     })
 
-    sets.me.melee.normalsw = set_combine(sets.me.idle.normal,{   
+    sets.me.melee.normalsw = set_combine(sets.me.idle.refresh,{   
         ammo        =   "Ginsen",
         head        =   Taeon.Head.TP,
         body        =   "Ayanmo Corazza +2",
@@ -357,7 +359,7 @@ function get_sets()
         waist       =   "Windbuffet Belt +1",
         left_ear    =   "Telos Earring",
         right_ear   =   "Sherida Earring",
-        right_ring  =   {name="Chirich Ring +1", bag="wardrobe3"},
+        right_ring  =   "Hetairoi Ring",
         back        =   RDMCape.TP,   
     })
     sets.me.melee.accsw = set_combine(sets.me.melee.normalsw,{
@@ -365,6 +367,7 @@ function get_sets()
         neck        =   "Sanctity Necklace",
         right_ear   =   "Mache Earring +1",
         waist       =   "Grunfeld Rope",
+        right_ring  =   {name="Chirich Ring +1", bag="wardrobe3"},
     })
     sets.me.melee.dtsw = set_combine(sets.me.melee.normalsw,{
         neck        =   "Twilight Torque",
@@ -778,7 +781,7 @@ function get_sets()
         back		=	RDMCape.MACC
     }
 	-- Type F-potency from "Enfeebling potency" gear only
-    sets.midcast.Enfeebling.skillmndpot = {
+    sets.midcast.Enfeebling.potency = {
         main		=	"Naegling",
         sub			=	"Ammurapi Shield",
         ammo		=	"Regal Gem",

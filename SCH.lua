@@ -35,8 +35,8 @@ version = "3.0"
         gs c nuke t3                    Cast tier 3 nuke of saved element 
         gs c nuke t4                    Cast tier 4 nuke of saved element 
         gs c nuke t5                    Cast tier 5 nuke of saved element 
-        gs c nuke helix                 Cast helix2 nuke of saved element 
-        gs c nuke storm                 Cast Storm II buff of saved element  
+        gs c nuke helix2                Cast helix2 nuke of saved element 
+        gs c nuke storm2                Cast Storm II buff of saved element  
                     
         gs c sc tier                    Cycles SC Tier (1 & 2)
         gs c sc castsc                  Cast All the stuff to create a SC burstable by the nuke element set with '/console gs c nuke element'.
